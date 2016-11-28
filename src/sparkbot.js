@@ -172,6 +172,8 @@ module.exports = class SparkBot {
                                 if (SparkBot.isDefined(responseText)) {
                                     console.log('Response as text message');
 									console.log("responseText: ",responseText);
+									let files;
+									/*
 									let files = responseText.match(/<file>.+<\/file>/g);
 									console.log("FILES: ", files);
 									for(var i=0; i<files.length; i++){
@@ -179,6 +181,7 @@ module.exports = class SparkBot {
 										console.log("File: ", files[i]);
 										responseText = responseText.replace(files[i], "FILE_PATH");
 									}
+									*/
                                     this.reply(chatId, responseText, files)
                                         .then((answer) => {
                                             console.log('Reply answer:', answer);

@@ -175,6 +175,7 @@ module.exports = class SparkBot {
 									
 									let files = responseText.match("<file>.+<\/file>");
 									console.log("AAAAAAA");
+									console.log("FILES: ", files);
 									var file;
 									for(file in files){
 										file.replace("<file>", "");

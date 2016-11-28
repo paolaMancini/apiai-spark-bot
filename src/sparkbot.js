@@ -168,21 +168,10 @@ module.exports = class SparkBot {
                         apiaiRequest.on('response', (response) => {
                             if (SparkBot.isDefined(response.result)) {
                                 let responseText = response.result.fulfillment.speech;
-								
+
                                 if (SparkBot.isDefined(responseText)) {
                                     console.log('Response as text message');
-									console.log("responseText: ",responseText);
-									let files;
-									/*
-									let files = responseText.match(/<file>.+<\/file>/g);
-									console.log("FILES: ", files);
-									for(var i=0; i<files.length; i++){
-										files[i] = files[i].replace("<file>", "").replace("</file>", "");
-										console.log("File: ", files[i]);
-										responseText = responseText.replace(files[i], "FILE_PATH");
-									}
-									*/
-                                    this.reply(chatId, responseText, files)
+                                    this.reply(chatId, responseText)
                                         .then((answer) => {
                                             console.log('Reply answer:', answer);
                                         })
@@ -215,7 +204,7 @@ module.exports = class SparkBot {
 
     }
 
-    reply(roomId, text, files) {
+    reply(roomId, text) {
         return new Promise((resolve, reject) => {
             request.post("https://api.ciscospark.com/v1/messages",
                 {
@@ -224,8 +213,7 @@ module.exports = class SparkBot {
                     },
                     json: {
                         roomId: roomId,
-                        text: text,
-						files: files
+                        text: text
                     }
                 }, (err, resp, body) => {
                     if (err) {

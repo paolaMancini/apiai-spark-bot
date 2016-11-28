@@ -171,6 +171,7 @@ module.exports = class SparkBot {
 								
                                 if (SparkBot.isDefined(responseText)) {
                                     console.log('Response as text message');
+									responseText =  responseText + "TEST!";
 									
 									let files = responseText.match("<file>.+<\/file>");
 									console.log("AAAAAAA");

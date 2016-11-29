@@ -62,6 +62,21 @@ module.exports = class SparkBot {
     setupWebhook() {
         // https://developer.ciscospark.com/endpoint-webhooks-post.html
 
+		// Check if a webhook has already been created for this bot
+		console.log("Start webhook check");
+		this.loadWebhooks()
+			.then((webhooks) => {
+				if(webhooks){
+					for(var i=0; i<webhooks.length; i++){
+						if(webhooks[i].targetUrl === this.webhookUrl){
+							console.log("Webhook found. Skipping webhook creation. TargetUrl: ", webhooks[i].targetUrl);
+							return;
+						}	
+					}
+				}
+			});		
+		
+		console.log("Start webhook creation");
         request.post("https://api.ciscospark.com/v1/webhooks",
             {
                 auth: {
@@ -92,6 +107,33 @@ module.exports = class SparkBot {
             });
     }
 
+	loadWebhooks() {
+		return new Promise((resolve, reject) => {
+            request.get("https://api.ciscospark.com/v1/webhooks",
+                {
+                    auth: {
+                        bearer: this._botConfig.sparkToken
+                    }
+                }, (err, resp, body) => {
+                    if (err) {
+                        console.error('Error while reply:', err);
+                        reject(err);
+                    } else if (resp.statusCode != 200) {
+                        console.log('LoadMessage error:', resp.statusCode, body);
+                        reject('LoadMessage error: ' + body);
+                    } else {
+
+                        if (this._botConfig.devConfig) {
+                            console.log("webhooks", body);
+                        }
+
+                        let result = JSON.parse(body);
+                        resolve(result);
+                    }
+                });
+        });
+	}
+	
     loadProfile() {
         return new Promise((resolve, reject) => {
             request.get("https://api.ciscospark.com/v1/people/me",
@@ -168,10 +210,20 @@ module.exports = class SparkBot {
                         apiaiRequest.on('response', (response) => {
                             if (SparkBot.isDefined(response.result)) {
                                 let responseText = response.result.fulfillment.speech;
-
+								
                                 if (SparkBot.isDefined(responseText)) {
                                     console.log('Response as text message');
-                                    this.reply(chatId, responseText)
+									console.log("responseText: ",responseText);
+									let files = responseText.match(/<file>.+<\/file>/g);
+									console.log("FILES: ", files);
+									if(files){
+									for(var i=0; i<files.length; i++){
+										files[i] = files[i].replace("<file>", "").replace("</file>", "");
+										console.log("File: ", files[i]);
+										responseText = responseText.replace(files[i], "FILE_PATH");
+									}
+									}
+                                    this.reply(chatId, responseText, files)
                                         .then((answer) => {
                                             console.log('Reply answer:', answer);
                                         })
@@ -204,7 +256,7 @@ module.exports = class SparkBot {
 
     }
 
-    reply(roomId, text) {
+    reply(roomId, text, files) {
         return new Promise((resolve, reject) => {
             request.post("https://api.ciscospark.com/v1/messages",
                 {
@@ -213,7 +265,8 @@ module.exports = class SparkBot {
                     },
                     json: {
                         roomId: roomId,
-                        text: text
+                        text: text,
+						files: files
                     }
                 }, (err, resp, body) => {
                     if (err) {

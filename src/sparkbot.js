@@ -86,6 +86,7 @@ module.exports = class SparkBot {
                     let result = JSON.parse(body);							
 					if(result){
 						for(var i=0; i<result.length; i++){
+							console.log("result[i]: ", result[i]);
 							if(result[i].targetUrl === this._webhookUrl){
 								console.log("Webhook already present for this bot. Webhook URL: ", result[i].targetUrl);
 								return;

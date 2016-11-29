@@ -64,17 +64,30 @@ module.exports = class SparkBot {
 
 		// Check if a webhook has already been created for this bot
 		console.log("Start webhook check");
-		this.loadWebhooks()
-			.then((webhooks) => {
-				if(webhooks){
-					for(var i=0; i<webhooks.length; i++){
-						if(webhooks[i].targetUrl === this.webhookUrl){
-							console.log("Webhook found. Skipping webhook creation. TargetUrl: ", webhooks[i].targetUrl);
-							return;
-						}	
-					}
+		request.get("https://api.ciscospark.com/v1/webhooks",
+            {
+                auth: {
+                   bearer: this._botConfig.sparkToken
+                },
+				qs: {
+					max: 100
 				}
-			});		
+            }, (err, resp, body) => {
+                if (err) {
+                    console.error('Error while reply:', err);
+                    reject(err);
+                } else if (resp.statusCode != 200) {
+                    console.log('LoadMessage error:', resp.statusCode, body);
+                    reject('LoadMessage error: ' + body);
+                } else {
+                    if (this._botConfig.devConfig) {
+                    console.log("webhooks", body);
+                }
+					console.log("webhooks", body);
+                    let result = JSON.parse(body);
+                    resolve(result);
+                }
+        });
 		
 		console.log("Start webhook creation");
         request.post("https://api.ciscospark.com/v1/webhooks",
@@ -106,35 +119,6 @@ module.exports = class SparkBot {
                 console.log("Webhook result", resp.body);
             });
     }
-
-	loadWebhooks() {
-		return new Promise((resolve, reject) => {
-            request.get("https://api.ciscospark.com/v1/webhooks",
-                {
-                    auth: {
-                        bearer: this._botConfig.sparkToken
-                    },
-					qs: {
-						max: 100
-					}
-                }, (err, resp, body) => {
-                    if (err) {
-                        console.error('Error while reply:', err);
-                        reject(err);
-                    } else if (resp.statusCode != 200) {
-                        console.log('LoadMessage error:', resp.statusCode, body);
-                        reject('LoadMessage error: ' + body);
-                    } else {
-                        if (this._botConfig.devConfig) {
-                            console.log("webhooks", body);
-                        }
-
-                        let result = JSON.parse(body);
-                        resolve(result);
-                    }
-                });
-        });
-	}
 	
     loadProfile() {
         return new Promise((resolve, reject) => {

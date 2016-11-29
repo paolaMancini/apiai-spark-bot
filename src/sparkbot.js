@@ -113,7 +113,10 @@ module.exports = class SparkBot {
                 {
                     auth: {
                         bearer: this._botConfig.sparkToken
-                    }
+                    },
+					qs: {
+						max: 100
+					}
                 }, (err, resp, body) => {
                     if (err) {
                         console.error('Error while reply:', err);
@@ -122,7 +125,6 @@ module.exports = class SparkBot {
                         console.log('LoadMessage error:', resp.statusCode, body);
                         reject('LoadMessage error: ' + body);
                     } else {
-
                         if (this._botConfig.devConfig) {
                             console.log("webhooks", body);
                         }

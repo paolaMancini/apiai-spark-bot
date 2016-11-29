@@ -74,18 +74,24 @@ module.exports = class SparkBot {
 				}
             }, (err, resp, body) => {
                 if (err) {
-                    console.error('Error while reply:', err);
-                    reject(err);
+                    console.error('Error while get webhooks:', err);
+					return;
                 } else if (resp.statusCode != 200) {
                     console.log('LoadMessage error:', resp.statusCode, body);
-                    reject('LoadMessage error: ' + body);
+					return;
                 } else {
                     if (this._botConfig.devConfig) {
-                    console.log("webhooks", body);
-                }
-					console.log("webhooks", body);
-                    let result = JSON.parse(body);
-                    resolve(result);
+						console.log("webhooks", body);
+					}
+                    let result = JSON.parse(body);							
+					if(result){
+						for(int i=0; i<result.length; i++){
+							if(result[i].targetUrl === this._webhookUrl){
+								console.log("Webhook already present for this bot. Webhook URL: ", result[i].targetUrl);
+								return;
+							}
+						}
+					}
                 }
         });
 		

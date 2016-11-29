@@ -79,10 +79,10 @@ module.exports = class SparkBot {
 				console.log('LoadMessage error:', resp.statusCode, body);
 				return;
 			} else {
-				if (this._botConfig.devConfig) {
-					console.log("webhooks", body);
-				}
+				console.log("Successful");
+				console.log("webhooks", body);
 				let result = JSON.parse(body);
+				console.log("result", result);
 				if (result) {
 					for (var i = 0; i < result.length; i++) {
 						console.log("result[i]: ", result[i]);

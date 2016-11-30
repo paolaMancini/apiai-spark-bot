@@ -208,9 +208,10 @@ module.exports = class SparkBot {
 								console.log("FILES: ", files);
 								if (files) {
 									for (var i = 0; i < files.length; i++) {
+										let fileTemp = files[i];
 										files[i] = files[i].replace("<file>", "").replace("</file>", "");
 										console.log("File: ", files[i]);
-										responseText = responseText.replace(files[i], "FILE_PATH");
+										responseText = responseText.replace(fileTemp, "");
 									}
 								}
 								this.reply(chatId, responseText, files)

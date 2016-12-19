@@ -171,6 +171,11 @@ module.exports = class SparkBot {
 				console.log("Message from bot. Skipping.");
 				return;
 			}
+			
+			if (updateObject.data.personEmail && !updateObject.data.personEmail.endsWith("@italtel.com")) {
+				console.log("Message is not from Italtel. Skipping.");
+				return;
+			}
 
 			this.loadMessage(updateObject.data.id)
 			.then((msg) => {

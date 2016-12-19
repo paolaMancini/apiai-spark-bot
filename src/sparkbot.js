@@ -208,10 +208,11 @@ module.exports = class SparkBot {
 							if (SparkBot.isDefined(responseText)) {
 								console.log('Response as text message');
 								let messages = response.result.fulfillment.messages;
-								let files = [];
+								let files;
 								if(SparkBot.isDefined(messages)){
 									for(var j = 0; j < messages.length; j++){
 										if(messages[j].type == 3){
+											files = [];
 											console.log("Attaching image with URL = " + messages[j].imageUrl);
 											files.push(messages[j].imageUrl);
 											break;

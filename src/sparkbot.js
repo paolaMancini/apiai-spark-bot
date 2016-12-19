@@ -205,10 +205,20 @@ module.exports = class SparkBot {
 					apiaiRequest.on('response', (response) => {
 						if (SparkBot.isDefined(response.result)) {
 							let responseText = response.result.fulfillment.speech;
-
 							if (SparkBot.isDefined(responseText)) {
 								console.log('Response as text message');
-								console.log("responseText: ", responseText);
+								let messages = response.result.fulfillment.messages;
+								let files = [];
+								if(SparkBot.isDefined(messages)){
+									for(var j = 0; j < messages.length; j++){
+										if(messages[i].type == 3){
+											console.log("Attaching image with URL = " + messages[i].imageUrl);
+											files.push(messages[i].imageUrl);
+										}
+									}
+								}
+								console.log("FILES: ", files);
+								/*console.log("responseText: ", responseText);
 								let files = responseText.match(/<file>.+<\/file>/g);
 								console.log("FILES: ", files);
 								if (files) {
@@ -218,7 +228,7 @@ module.exports = class SparkBot {
 										console.log("File: ", files[i]);
 										responseText = responseText.replace(fileTemp, "");
 									}
-								}
+								}*/
 								this.reply(chatId, responseText, files)
 								.then((answer) => {
 									console.log('Reply answer:', answer);

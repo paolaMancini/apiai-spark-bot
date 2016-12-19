@@ -211,9 +211,9 @@ module.exports = class SparkBot {
 								let files = [];
 								if(SparkBot.isDefined(messages)){
 									for(var j = 0; j < messages.length; j++){
-										if(messages[i].type == 3){
-											console.log("Attaching image with URL = " + messages[i].imageUrl);
-											files.push(messages[i].imageUrl);
+										if(messages[j].type == 3){
+											console.log("Attaching image with URL = " + messages[j].imageUrl);
+											files.push(messages[j].imageUrl);
 										}
 									}
 								}

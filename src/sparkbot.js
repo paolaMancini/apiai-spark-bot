@@ -214,6 +214,7 @@ module.exports = class SparkBot {
 										if(messages[j].type == 3){
 											console.log("Attaching image with URL = " + messages[j].imageUrl);
 											files.push(messages[j].imageUrl);
+											break;
 										}
 									}
 								}

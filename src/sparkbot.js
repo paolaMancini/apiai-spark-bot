@@ -4,6 +4,8 @@ const apiai = require('apiai');
 const uuid = require('node-uuid');
 const request = require('request');
 
+var allowedEmails = ["luca.calabrese@italtel.com","andrea.stella@italtel.com", "stefano.boero@italtel.com", "antonella.clavenna@italtel.com", "gianandrea.mevoli@italtel.com", "camillo.ascione@italtel.com", "giorgio.costantini@italtel.com", "francesca.tiburzi@italtel.com", "vincenzo.vettigli@italtel-consultant.com"];
+
 module.exports = class SparkBot {
 
 	get apiaiService() {
@@ -172,8 +174,9 @@ module.exports = class SparkBot {
 				return;
 			}
 			
-			if (updateObject.data.personEmail && !updateObject.data.personEmail.endsWith("@italtel.com")) {
+			if (updateObject.data.personEmail && !updateObject.data.personEmail in allowedEmails) {
 				console.log("Message is not from Italtel. Skipping.");
+				reply(updateObject.data.roomId, updateObject.data.personEmail + ", unfortunately I cannot answer you since you are not authorized.");
 				return;
 			}
 

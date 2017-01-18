@@ -268,6 +268,9 @@ module.exports = class SparkBot {
 	}
 
 	reply(roomId, text, files) {
+		console.log("roomId: " + roomId);
+		console.log("text:" + text);
+		console.log("files:" + files);
 		return new Promise((resolve, reject) => {
 			request.post("https://api.ciscospark.com/v1/messages", {
 				auth: {

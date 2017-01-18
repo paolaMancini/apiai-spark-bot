@@ -176,7 +176,8 @@ module.exports = class SparkBot {
 			
 			if (updateObject.data.personEmail && allowedEmails.indexOf(updateObject.data.personEmail)==-1) {
 				console.log("Message is not from Italtel. Skipping.");
-				reply(updateObject.data.roomId, updateObject.data.personEmail + ", unfortunately I cannot answer you since you are not authorized.");
+				this.reply(updateObject.data.roomId, updateObject.data.personEmail + ", unfortunately I cannot answer you since you are not authorized.", null);
+				SparkBot.createResponse(res, 200, 'Reply sent');
 				return;
 			}
 

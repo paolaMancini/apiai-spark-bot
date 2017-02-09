@@ -203,7 +203,7 @@ module.exports = class SparkBot {
 					}
 
 					var myContexts = [];
-					var context;
+					var context = {};
 					context.name='spark';
 					context.parameters=[];
 					context.parameters.push({roomId:chatId});

@@ -202,8 +202,16 @@ module.exports = class SparkBot {
 						this._sessionIds.set(chatId, uuid.v1());
 					}
 
+					var myContexts = [];
+					var context;
+					context.name='spark';
+					context.parameters=[];
+					context.parameters.push({roomId:chatId});
+					myContexts.push(context);
+					
 					let apiaiRequest = this._apiaiService.textRequest(messageText, {
-							sessionId: this._sessionIds.get(chatId)
+							sessionId: this._sessionIds.get(chatId),
+							contexts: myContexts
 						});
 
 					apiaiRequest.on('response', (response) => {

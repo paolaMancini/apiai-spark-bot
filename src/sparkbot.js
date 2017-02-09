@@ -210,6 +210,7 @@ module.exports = class SparkBot {
 					myContexts.push(context);
 					
 					console.log(myContexts);
+					console.log(parameters);
 					
 					let apiaiRequest = this._apiaiService.textRequest(messageText, {
 							sessionId: this._sessionIds.get(chatId),

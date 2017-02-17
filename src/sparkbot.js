@@ -4,7 +4,7 @@ const apiai = require('apiai');
 const uuid = require('node-uuid');
 const request = require('request');
 
-var allowedEmails = ["luca.calabrese@italtel.com","andrea.stella@italtel.com", "stefano.boero@italtel.com", "antonella.clavenna@italtel.com", "gianandrea.mevoli@italtel.com", "camillo.ascione@italtel.com", "giorgio.costantini@italtel.com", "francesca.tiburzi@italtel.com", "vincenzo.vettigli@italtel-consultant.com"];
+var allowedEmails = ["luca.calabrese@italtel.com","andrea.stella@italtel.com", "stefano.boero@italtel.com", "antonella.clavenna@italtel.com", "gianandrea.mevoli@italtel.com", "camillo.ascione@italtel.com", "giorgio.costantini@italtel.com", "francesca.tiburzi@italtel.com", "vincenzo.vettigli@italtel-consultant.com", "paola.mancini@italtel.com", "alessandro.villarosa@italtel.com", "tullia.zanni@italtel.com", "domenico.minafo@italtel.com"];
 
 module.exports = class SparkBot {
 
